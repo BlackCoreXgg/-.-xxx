@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>𝔽𝕝𝕦𝕩𝕠.𝔾𝔾</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
+    body{background:#000;color:#e5e5ff;overflow-x:hidden;}
+    header{display:flex;justify-content:space-between;align-items:center;padding:12px 24px;background:#0a0a14;border-radius:8px;z-index:2;position:relative;}
+    .logo{font-weight:700;font-size:1.4rem;color:#ffffff;}
+    nav a{color:#c0c0ff;margin-left:16px;text-decoration:none;transition:0.3s;}
+    nav a:hover{color:#6a5acd;}
+    section{display:none;padding:20px;}
+    section.active{display:block;}
+    #inicio{display:flex;flex-direction:column;align-items:center;justify-content:center;height:80vh;text-align:center;position:relative;z-index:1;}
+    #inicio img{width:220px;margin-bottom:20px;border-radius:12px;}
+    #inicio h1{color:#ffffff;font-size:2.5rem;margin-bottom:10px;}
+    #productos .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;width:100%;}
+    @media(max-width:1024px){#productos .grid{grid-template-columns:repeat(2,1fr);}}
+    @media(max-width:600px){#productos .grid{grid-template-columns:1fr;}}
+    .card{background:#1a1025;padding:16px;border-radius:8px;border:2px solid #fff; background:#000;display:flex;flex-direction:column;justify-content:space-between;}
+    .thumb{height:140px;background:#050510;border-radius:6px;margin-bottom:10px;overflow:hidden;}
+    .thumb img{width:100%;height:100%;object-fit:cover;border-radius:6px;transition:transform .3s;}
+    .thumb img:hover{transform:scale(1.1);}
+    .title{font-weight:600;margin-bottom:6px;color:#fff;font-size:1.1rem;}
+    .desc{color:#c0c0ff;font-size:14px;}
+    .price{font-weight:700;margin-top:8px;color:#e5e5ff;}
+    .btn{display:inline-block;margin-top:10px;padding:10px 16px;border-radius:6px;background:#000; color:#fff; border:1px solid #fff;text-decoration:none;font-weight:bold;text-align:center;transition:all .3s;cursor:pointer;}
+    .btn:hover{background:#fff; color:#000;transform:scale(1.05);}
+    .contact-section{margin-top:40px;background:#141022;padding:20px;border-radius:8px;text-align:center;}
+    .contact-section h2{color:#6a5acd;margin-bottom:10px;}
+    .contact-section p{color:#c0c0ff;margin-bottom:20px;}
+    .contact-section a{padding:12px 24px;border-radius:6px;background:#6a5acd;color:#0b0f0b;font-weight:bold;text-decoration:none;display:inline-block;transition:all .3s;}
+    .contact-section a:hover{background:#5d9bff;transform:scale(1.05);}
+    footer{margin-top:24px;color:#c0c0ff;font-size:14px;text-align:center;}
+    /* Popup */
+    #popup{display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.8); justify-content:center; align-items:center; z-index:999;}
+    #popup .box{background:#111; padding:20px; border-radius:8px; text-align:center; max-width:320px;}
+    #popup h2{color:#6a5acd;}
+    #popup a{display:block; margin:10px 0; padding:10px; background:#6a5acd; color:#000; border-radius:6px; text-decoration:none;}
+    #popup button{margin-top:10px; background:#333; color:#fff; padding:8px 16px; border:none; border-radius:6px; cursor:pointer;}
+  
+body {
+  background:#000;
+}
+
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+.logo, #inicio h1 {
+  text-shadow: 0 0 12px rgba(255,255,255,0.95), 0 0 24px rgba(255,255,255,0.85), 0 0 48px rgba(255,255,255,0.7);
+}
+
+</style>
+
+<style>
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.7);
+}
+.modal-content {
+  background: #111;
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 10px;
+  width: 320px;
+  text-align: center;
+  color: #fff;
+  border: 1px solid #6a5acd;
+  position: relative;
+}
+.modal-content h2 { color: #6a5acd; margin-bottom: 15px; }
+.modal-content .close {
+  position: absolute; top: 10px; right: 15px;
+  font-size: 22px; cursor: pointer; color: #aaa;
+}
+.modal-content .close:hover { color: #fff; }
+.modal-content a.paypal {
+  display:block; margin:12px 0; padding:10px; border-radius:6px;
+  background:#003087; color:#fff; text-decoration:none; font-weight:bold;
+}
+.modal-content a.paypal:hover { background:#0055cc; }
+.modal-content .prex {
+  background:#6a5acd; color:#000; padding:10px; border-radius:6px;
+  margin:10px 0; cursor:pointer; font-weight:bold;
+}
+</style>
+
+</head>
+<body>
+
+<canvas id="particle-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;"></canvas>
+
+
+
+</div>
+
+
+
+
+</div>
+
+  <header><div style="display:flex;flex-direction:column;align-items:flex-start;">
+  <div class="logo">𝔽𝕝𝕦𝕩𝕠.𝔾𝔾</div>
+  <div id="site-counter" style="color:#c0c0ff;font-weight:700;margin-top:6px;font-size:14px;">
+    Ventas: <span id="ventas">0</span> &nbsp;|&nbsp; Compradores: <span id="compradores">0</span>
+  </div>
+</div>
+    <div style="display:inline-block; margin-left:12px;">
+      <input type="text" id="searchBar" placeholder="Buscar Mod Menu..." 
+             style="padding:6px 10px; width:300px; border-radius:6px; border:1px solid #6a5acd; background:#000; color:#fff; font-size:14px;">
+      <div id="suggestions" style="position:absolute; background:#111; border:1px solid #6a5acd; border-radius:6px; max-width:320px; z-index:1000;"></div>
+    </div>
+    
+  <nav>
+    <a href="#" onclick="showSection('inicio')">Inicio</a>
+    <a href="#" onclick="showSection('productos')">Productos</a>
+    <a href="https://discord.com/channels/1415141267305791621/1415157550202093619" target="_blank">Contacto</a>
+  </nav>
+</header>
+
+<!-- Inicio -->
+<section id="inicio" class="active" class="active" class="active">
+  <img src="https://cdn.discordapp.com/attachments/1387479824372863080/1416572661877968906/PERFIL_FLUXO.jfif?ex=68cded19&is=68cc9b99&hm=763d9a7b549091e45755c57ffab6439c364df60b2d64972eefd4ae0600a30439&">
+  
+</section>
+
+<!-- Productos -->
+
+<section id="productos">
+<h2 id="only">ONLY EXTERNAL</h2>
+<div class='grid'>
+<article class="card"><div class="thumb"><img alt="Producto 1" src="https://cdn.discordapp.com/attachments/1078484064689999932/1382281827229765693/Black_and_Grey_3D_Shapes_Tech_Company_Presentation.png?ex=68cdc305&is=68cc7185&hm=cf3a1e196912628fe479810f95f8eb80034d20a5509065bfb6f44208104e1f46&"/></div><div class="title">𝐎𝐍𝐋𝐘 𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋</div><div class="desc">𝐊𝐄𝐘-𝟑-𝐌𝐄𝐒𝐄𝐒</div><div class="price">$15 USD</div><a class="btn" onclick="abrirPago('𝐎𝐍𝐋𝐘 𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋')" target="_blank">Comprar</a></article>
+<article class="card"><div class="thumb"><img alt="Producto 2" src="https://cdn.discordapp.com/attachments/1078484064689999932/1382281827229765693/Black_and_Grey_3D_Shapes_Tech_Company_Presentation.png?ex=68cdc305&is=68cc7185&hm=cf3a1e196912628fe479810f95f8eb80034d20a5509065bfb6f44208104e1f46&"/></div><div class="title">𝐎𝐍𝐋𝐘 𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋</div><div class="desc">𝐊𝐄𝐘-𝐌𝐄𝐍𝐒𝐔𝐀𝐋</div><div class="price">$12.5 USD</div><a class="btn" onclick="abrirPago('𝐎𝐍𝐋𝐘 𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋')" target="_blank">Comprar</a></article>
+<article class="card"><div class="thumb"><img alt="Producto 3" src="https://cdn.discordapp.com/attachments/1078484064689999932/1382281827229765693/Black_and_Grey_3D_Shapes_Tech_Company_Presentation.png?ex=68cdc305&is=68cc7185&hm=cf3a1e196912628fe479810f95f8eb80034d20a5509065bfb6f44208104e1f46&"/></div><div class="title">𝐎𝐍𝐋𝐘 𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋</div><div class="desc">𝐊𝐄𝐘-𝐏𝐄𝐑𝐌𝐀𝐍𝐄𝐍𝐓𝐄</div><div class="price">$25.5 USD</div><a class="btn" onclick="abrirPago('𝐎𝐍𝐋𝐘 𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋')" target="_blank">Comprar</a></article>
+</div>
+<h2 id="susano">SUSANO FIVE</h2>
+<div class='grid'>
+<article class="card"><div class="thumb"><img alt="Producto 5" src="https://cdn.discordapp.com/attachments/1387479824372863080/1415901151395709100/susano.png?ex=68cd75f4&is=68cc2474&hm=8ebd15bc5a7c96f91d51a00124896ed43d893084f279ab6f82afe5a1135186af&"/></div><div class="title">𝐒𝐔𝐒𝐀𝐍𝐎 𝐅𝐈𝐕𝐄</div><div class="desc">𝐊𝐄𝐘 𝐌𝐄𝐍𝐒𝐔𝐀𝐋</div><div class="price">$29 USD</div><a class="btn" onclick="abrirPago('𝐒𝐔𝐒𝐀𝐍𝐎 𝐅𝐈𝐕𝐄')" target="_blank">Comprar</a></article>
+<article class="card"><div class="thumb"><img alt="Producto 6" src="https://cdn.discordapp.com/attachments/1387479824372863080/1415901151395709100/susano.png?ex=68cd75f4&is=68cc2474&hm=8ebd15bc5a7c96f91d51a00124896ed43d893084f279ab6f82afe5a1135186af&"/></div><div class="title">𝐒𝐔𝐒𝐀𝐍𝐎 𝐅𝐈𝐕𝐄</div><div class="desc">𝐊𝐄𝐘 𝐓𝐑𝐈𝐌𝐄𝐒𝐓𝐑𝐀𝐋</div><div class="price">$40 USD</div><a class="btn" onclick="abrirPago('𝐒𝐔𝐒𝐀𝐍𝐎 𝐅𝐈𝐕𝐄')" target="_blank">Comprar</a></article>
+<article class="card"><div class="thumb"><img alt="Producto 7" src="https://cdn.discordapp.com/attachments/1387479824372863080/1415901151395709100/susano.png?ex=68cd75f4&is=68cc2474&hm=8ebd15bc5a7c96f91d51a00124896ed43d893084f279ab6f82afe5a1135186af&"/></div><div class="title">𝐒𝐔𝐒𝐀𝐍𝐎 𝐅𝐈𝐕𝐄</div><div class="desc">𝐊𝐄𝐘 𝐏𝐄𝐑𝐌𝐀𝐍𝐄𝐍𝐓𝐄</div><div class="price">$70 USD</div><a class="btn" onclick="abrirPago('𝐒𝐔𝐒𝐀𝐍𝐎 𝐅𝐈𝐕𝐄')" target="_blank">Comprar</a></article>
+<article class="card"><div class="thumb"><img alt="Producto 8" src="https://cdn.discordapp.com/attachments/1387479824372863080/1415901151395709100/susano.png?ex=68cd75f4&is=68cc2474&hm=8ebd15bc5a7c96f91d51a00124896ed43d893084f279ab6f82afe5a1135186af&"/></div><div class="title">𝐒𝐔𝐒𝐀𝐍𝐎 𝐅𝐈𝐕𝐄</div><div class="desc">𝐊𝐄𝐘 𝐒𝐄𝐌𝐀𝐍𝐀𝐋</div><div class="price">$17 USD</div><a class="btn" onclick="abrirPago('𝐒𝐔𝐒𝐀𝐍𝐎 𝐅𝐈𝐕𝐄')" target="_blank">Comprar</a></article>
+</div>
+<h2 id="stoped">STOPED EXTERNAL</h2>
+<div class='grid'>
+<article class="card"><div class="thumb"><img alt="Producto 9" src="https://cdn.discordapp.com/attachments/1208172802562199654/1253541692837986417/1.png?ex=68cd6ced&is=68cc1b6d&hm=1039bb2fdeb6a852a5c41e3b1816f01856fed693b2807e7611962ca1c4b4635c&"/></div><div class="title">𝐒𝐓𝐎𝐏𝐄𝐃-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋</div><div class="desc">𝐊𝐄𝐘-𝐒𝐄𝐌𝐀𝐍𝐀𝐋</div><div class="price">$9.5 USD</div><a class="btn" onclick="abrirPago('𝐒𝐓𝐎𝐏𝐄𝐃-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋')" target="_blank">Comprar</a></article>
+<article class="card"><div class="thumb"><img alt="Producto 10" src="https://cdn.discordapp.com/attachments/1208172802562199654/1253541692837986417/1.png?ex=68cd6ced&is=68cc1b6d&hm=1039bb2fdeb6a852a5c41e3b1816f01856fed693b2807e7611962ca1c4b4635c&"/></div><div class="title">𝐒𝐓𝐎𝐏𝐄𝐃-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋</div><div class="desc">𝐊𝐄𝐘-𝐌𝐄𝐍𝐒𝐔𝐀𝐋</div><div class="price">$17.9 USD</div><a class="btn" onclick="abrirPago('𝐒𝐓𝐎𝐏𝐄𝐃-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋')" target="_blank">Comprar</a></article>
+<article class="card"><div class="thumb"><img alt="Producto 11" src="https://cdn.discordapp.com/attachments/1208172802562199654/1253541692837986417/1.png?ex=68cd6ced&is=68cc1b6d&hm=1039bb2fdeb6a852a5c41e3b1816f01856fed693b2807e7611962ca1c4b4635c&"/></div><div class="title">𝐒𝐓𝐎𝐏𝐄𝐃-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋</div><div class="desc">𝐊𝐄𝐘-𝐓𝐑𝐈𝐌𝐄𝐒𝐓𝐑𝐀𝐋</div><div class="price">$27.5 USD</div><a class="btn" onclick="abrirPago('𝐒𝐓𝐎𝐏𝐄𝐃-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋')" target="_blank">Comprar</a></article>
+<article class="card"><div class="thumb"><img alt="Producto 12" src="https://cdn.discordapp.com/attachments/1208172802562199654/1253541692837986417/1.png?ex=68cd6ced&is=68cc1b6d&hm=1039bb2fdeb6a852a5c41e3b1816f01856fed693b2807e7611962ca1c4b4635c&"/></div><div class="title">𝐒𝐓𝐎𝐏𝐄𝐃-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋</div><div class="desc">𝐊𝐄𝐘-𝐏𝐄𝐑𝐌𝐀𝐍𝐄𝐍𝐓𝐄</div><div class="price">$50 USD</div><a class="btn" onclick="abrirPago('𝐒𝐓𝐎𝐏𝐄𝐃-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋')" target="_blank">Comprar</a></article>
+</div>
+<h2 id="hx">HX EXTERNAL</h2>
+<div class='grid'>
+<article class="card">
+<div class="thumb"><img alt="𝐇𝐗-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋" src="https://cdn.discordapp.com/attachments/1387479824372863080/1416572582899093574/HX.png?ex=68cded06&is=68cc9b86&hm=95cec2da230f066f49f4ad080d64217bae88e3d22e9b7ecb3e890c5709b21353&"/></div>
+<div class="title">𝐇𝐗-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋</div>
+<div class="desc">KEY DÍA</div>
+<div class="price">$4.3 USD</div>
+<a class="btn" onclick="abrirPago('𝐇𝐗-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋')" target="_blank">Comprar</a>
+</article>
+<article class="card">
+<div class="thumb"><img alt="𝐇𝐗-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋" src="https://cdn.discordapp.com/attachments/1387479824372863080/1416572582899093574/HX.png?ex=68cded06&is=68cc9b86&hm=95cec2da230f066f49f4ad080d64217bae88e3d22e9b7ecb3e890c5709b21353&"/></div>
+<div class="title">𝐇𝐗-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋</div>
+<div class="desc">KEY SEMANAL</div>
+<div class="price">$14 USD</div>
+<a class="btn" onclick="abrirPago('𝐇𝐗-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋')" target="_blank">Comprar</a>
+</article>
+<article class="card">
+<div class="thumb"><img alt="𝐇𝐗-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋" src="https://cdn.discordapp.com/attachments/1387479824372863080/1416572582899093574/HX.png?ex=68cded06&is=68cc9b86&hm=95cec2da230f066f49f4ad080d64217bae88e3d22e9b7ecb3e890c5709b21353&"/></div>
+<div class="title">𝐇𝐗-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋</div>
+<div class="desc">KEY MENSUAL</div>
+<div class="price">$25 USD</div>
+<a class="btn" onclick="abrirPago('𝐇𝐗-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋')" target="_blank">Comprar</a>
+</article>
+<article class="card">
+<div class="thumb"><img alt="𝐇𝐗-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋" src="https://cdn.discordapp.com/attachments/1387479824372863080/1416572582899093574/HX.png?ex=68cded06&is=68cc9b86&hm=95cec2da230f066f49f4ad080d64217bae88e3d22e9b7ecb3e890c5709b21353&"/></div>
+<div class="title">𝐇𝐗-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋</div>
+<div class="desc">KEY PERMANENTE</div>
+<div class="price">$42 USD</div>
+<a class="btn" onclick="abrirPago('𝐇𝐗-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋')" target="_blank">Comprar</a>
+</article>
+</div>
+<h2 id="red">RED ENGINE</h2>
+<div class='grid'>
+<article class="card">
+<div class="thumb"><img alt="𝐫𝐞𝐝-𝐄𝐍𝐆𝐈𝐍𝐄" src="https://cdn.discordapp.com/attachments/1387479824372863080/1416572626532569212/RED_ENGINE.jpg?ex=68cded10&is=68cc9b90&hm=cfbf20df0a5ef74b733e5753e9a099cdea83c82ed2e032a5d0270922fa583187&"/></div>
+<div class="title">𝐫𝐞𝐝-𝐄𝐍𝐆𝐈𝐍𝐄</div>
+<div class="desc">KEY SEMANAL</div>
+<div class="price">$12.3 USD</div>
+<a class="btn" onclick="abrirPago('𝐫𝐞𝐝-𝐄𝐍𝐆𝐈𝐍𝐄')" target="_blank">Comprar</a>
+</article>
+<article class="card">
+<div class="thumb"><img alt="𝐫𝐞𝐝-𝐄𝐍𝐆𝐈𝐍𝐄" src="https://cdn.discordapp.com/attachments/1387479824372863080/1416572626532569212/RED_ENGINE.jpg?ex=68cded10&is=68cc9b90&hm=cfbf20df0a5ef74b733e5753e9a099cdea83c82ed2e032a5d0270922fa583187&"/></div>
+<div class="title">𝐫𝐞𝐝-𝐄𝐍𝐆𝐈𝐍𝐄</div>
+<div class="desc">KEY MENSUAL</div>
+<div class="price">$23 USD</div>
+<a class="btn" onclick="abrirPago('𝐫𝐞𝐝-𝐄𝐍𝐆𝐈𝐍𝐄')" target="_blank">Comprar</a>
+</article>
+<article class="card">
+<div class="thumb"><img alt="𝐫𝐞𝐝-𝐄𝐍𝐆𝐈𝐍𝐄" src="https://cdn.discordapp.com/attachments/1387479824372863080/1416572626532569212/RED_ENGINE.jpg?ex=68cded10&is=68cc9b90&hm=cfbf20df0a5ef74b733e5753e9a099cdea83c82ed2e032a5d0270922fa583187&"/></div>
+<div class="title">𝐫𝐞𝐝-𝐄𝐍𝐆𝐈𝐍𝐄</div>
+<div class="desc">KEY PERMANENTE</div>
+<div class="price">$56 USD</div>
+<a class="btn" onclick="abrirPago('𝐫𝐞𝐝-𝐄𝐍𝐆𝐈𝐍𝐄')" target="_blank">Comprar</a>
+</article>
+</div>
+<h2 id="jorel">JOREL EXTERNAL</h2>
+<div class='grid'>
+<article class="card">
+<div class="thumb"><img alt="𝐉𝐎𝐑𝐄𝐋-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋" src="https://cdn.discordapp.com/attachments/1387479824372863080/1416572582169415801/BYPASS_JOREL.jpg?ex=68cded06&is=68cc9b86&hm=36376332c70e59e85d18ec158e46165f801aa1c074bda4906b9957149b801388&"/></div>
+<div class="title">𝐉𝐎𝐑𝐄𝐋-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋</div>
+<div class="desc">KEY DÍA</div>
+<div class="price">$4 USD</div>
+<a class="btn" onclick="abrirPago('𝐉𝐎𝐑𝐄𝐋-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋')" target="_blank">Comprar</a>
+</article>
+<article class="card">
+<div class="thumb"><img alt="𝐉𝐎𝐑𝐄𝐋-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋" src="https://cdn.discordapp.com/attachments/1387479824372863080/1416572582169415801/BYPASS_JOREL.jpg?ex=68cded06&is=68cc9b86&hm=36376332c70e59e85d18ec158e46165f801aa1c074bda4906b9957149b801388&"/></div>
+<div class="title">𝐉𝐎𝐑𝐄𝐋-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋</div>
+<div class="desc">KEY SEMANAL</div>
+<div class="price">$9 USD</div>
+<a class="btn" onclick="abrirPago('𝐉𝐎𝐑𝐄𝐋-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋')" target="_blank">Comprar</a>
+</article>
+<article class="card">
+<div class="thumb"><img alt="𝐉𝐎𝐑𝐄𝐋-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋" src="https://cdn.discordapp.com/attachments/1387479824372863080/1416572582169415801/BYPASS_JOREL.jpg?ex=68cded06&is=68cc9b86&hm=36376332c70e59e85d18ec158e46165f801aa1c074bda4906b9957149b801388&"/></div>
+<div class="title">𝐉𝐎𝐑𝐄𝐋-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋</div>
+<div class="desc">KEY MENSUAL</div>
+<div class="price">$13 USD</div>
+<a class="btn" onclick="abrirPago('𝐉𝐎𝐑𝐄𝐋-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋')" target="_blank">Comprar</a>
+</article>
+<article class="card">
+<div class="thumb"><img alt="𝐉𝐎𝐑𝐄𝐋-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋" src="https://cdn.discordapp.com/attachments/1387479824372863080/1416572582169415801/BYPASS_JOREL.jpg?ex=68cded06&is=68cc9b86&hm=36376332c70e59e85d18ec158e46165f801aa1c074bda4906b9957149b801388&"/></div>
+<div class="title">𝐉𝐎𝐑𝐄𝐋-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋</div>
+<div class="desc">KEY 3 MESES</div>
+<div class="price">$21 USD</div>
+<a class="btn" onclick="abrirPago('𝐉𝐎𝐑𝐄𝐋-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋')" target="_blank">Comprar</a>
+</article>
+<article class="card">
+<div class="thumb"><img alt="𝐉𝐎𝐑𝐄𝐋-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋" src="https://cdn.discordapp.com/attachments/1387479824372863080/1416572582169415801/BYPASS_JOREL.jpg?ex=68cded06&is=68cc9b86&hm=36376332c70e59e85d18ec158e46165f801aa1c074bda4906b9957149b801388&"/></div>
+<div class="title">𝐉𝐎𝐑𝐄𝐋-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋</div>
+<div class="desc">KEY PERMANENTE</div>
+<div class="price">$46 USD</div>
+<a class="btn" onclick="abrirPago('𝐉𝐎𝐑𝐄𝐋-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋')" target="_blank">Comprar</a>
+</article>
+</div>
+<h2 id="flyside">FLYSIDE</h2>
+<div class='grid'>
+<article class="card">
+<div class="thumb"><img alt="𝐅𝐋𝐘𝐒𝐈𝐃𝐄" src="https://cdn.discordapp.com/attachments/1387479824372863080/1416572582513213592/FLYSIDE.jpg?ex=68cded06&is=68cc9b86&hm=f438bb5952fdf38a98237e82745e3761ad3a021e314cecde109182e013b254c6&"/></div>
+<div class="title">𝐅𝐋𝐘𝐒𝐈𝐃𝐄</div>
+<div class="desc">KEY SEMANAL</div>
+<div class="price">$5.99 USD</div>
+<a class="btn" onclick="abrirPago('𝐅𝐋𝐘𝐒𝐈𝐃𝐄')" target="_blank">Comprar</a>
+</article>
+<article class="card">
+<div class="thumb"><img alt="𝐅𝐋𝐘𝐒𝐈𝐃𝐄" src="https://cdn.discordapp.com/attachments/1387479824372863080/1416572582513213592/FLYSIDE.jpg?ex=68cded06&is=68cc9b86&hm=f438bb5952fdf38a98237e82745e3761ad3a021e314cecde109182e013b254c6&"/></div>
+<div class="title">𝐅𝐋𝐘𝐒𝐈𝐃𝐄</div>
+<div class="desc">KEY 30 DÍAS</div>
+<div class="price">$20.5 USD</div>
+<a class="btn" onclick="abrirPago('𝐅𝐋𝐘𝐒𝐈𝐃𝐄')" target="_blank">Comprar</a>
+</article>
+<article class="card">
+<div class="thumb"><img alt="𝐅𝐋𝐘𝐒𝐈𝐃𝐄" src="https://cdn.discordapp.com/attachments/1387479824372863080/1416572582513213592/FLYSIDE.jpg?ex=68cded06&is=68cc9b86&hm=f438bb5952fdf38a98237e82745e3761ad3a021e314cecde109182e013b254c6&"/></div>
+<div class="title">𝐅𝐋𝐘𝐒𝐈𝐃𝐄</div>
+<div class="desc">KEY PERMANENTE</div>
+<div class="price">$32.99 USD</div>
+<a class="btn" onclick="abrirPago('𝐅𝐋𝐘𝐒𝐈𝐃𝐄')" target="_blank">Comprar</a>
+</article>
+</div>
+<h2 id="corwail">CORWAIL EXTERNAL</h2>
+<div class='grid'>
+<article class="card">
+<div class="thumb"><img alt="𝐂𝐎𝐑𝐖𝐀𝐈𝐋-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋" src="https://cdn.discordapp.com/attachments/1387479824372863080/1416573329481007114/corwail.jpg?ex=68cdedb8&is=68cc9c38&hm=b1ff29c3f60d14542928e007601ceeb17f157a75ba83f39602ba850b512488f7&"/></div>
+<div class="title">𝐂𝐎𝐑𝐖𝐀𝐈𝐋-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋</div>
+<div class="desc">KEY DÍA</div>
+<div class="price">$4.50 USD</div>
+<a class="btn" onclick="abrirPago('𝐂𝐎𝐑𝐖𝐀𝐈𝐋-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋')" target="_blank">Comprar</a>
+</article>
+<article class="card">
+<div class="thumb"><img alt="𝐂𝐎𝐑𝐖𝐀𝐈𝐋-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋" src="https://cdn.discordapp.com/attachments/1387479824372863080/1416573329481007114/corwail.jpg?ex=68cdedb8&is=68cc9c38&hm=b1ff29c3f60d14542928e007601ceeb17f157a75ba83f39602ba850b512488f7&"/></div>
+<div class="title">𝐂𝐎𝐑𝐖𝐀𝐈𝐋-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋</div>
+<div class="desc">KEY SEMANAL</div>
+<div class="price">$7.50 USD</div>
+<a class="btn" onclick="abrirPago('𝐂𝐎𝐑𝐖𝐀𝐈𝐋-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋')" target="_blank">Comprar</a>
+</article>
+<article class="card">
+<div class="thumb"><img alt="𝐂𝐎𝐑𝐖𝐀𝐈𝐋-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋" src="https://cdn.discordapp.com/attachments/1387479824372863080/1416573329481007114/corwail.jpg?ex=68cdedb8&is=68cc9c38&hm=b1ff29c3f60d14542928e007601ceeb17f157a75ba83f39602ba850b512488f7&"/></div>
+<div class="title">𝐂𝐎𝐑𝐖𝐀𝐈𝐋-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋</div>
+<div class="desc">KEY MENSUAL</div>
+<div class="price">$14.20 USD</div>
+<a class="btn" onclick="abrirPago('𝐂𝐎𝐑𝐖𝐀𝐈𝐋-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋')" target="_blank">Comprar</a>
+</article>
+<article class="card">
+<div class="thumb"><img alt="𝐂𝐎𝐑𝐖𝐀𝐈𝐋-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋" src="https://cdn.discordapp.com/attachments/1387479824372863080/1416573329481007114/corwail.jpg?ex=68cdedb8&is=68cc9c38&hm=b1ff29c3f60d14542928e007601ceeb17f157a75ba83f39602ba850b512488f7&"/></div>
+<div class="title">𝐂𝐎𝐑𝐖𝐀𝐈𝐋-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋</div>
+<div class="desc">KEY PERMANENTE</div>
+<div class="price">$19.50 USD</div>
+<a class="btn" onclick="abrirPago('𝐂𝐎𝐑𝐖𝐀𝐈𝐋-𝐄𝐗𝐓𝐄𝐑𝐍𝐀𝐋')" target="_blank">Comprar</a>
+</article>
+</div>
+</section>
+
+<!-- Contacto -->
+<section class="contact-section">
+  <h2>Contacto</h2>
+  <p>¿Querés hablar con nosotros o recibir soporte?</p>
+  <a href="https://discord.com/channels/1415141267305791621/1415157550202093619" target="_blank">Ir al Discord</a>
+</section>
+
+<footer>© <span id="year"></span> 𝔽𝕝𝕦𝕩𝕠.𝔾𝔾 — Todos los derechos reservados.</footer>
+
+<!-- Popup -->
+<div id="popup">
+  <div class="box">
+    <h2>Elegí método de pago</h2>
+    <p id="producto"></p>
+    <a href="https://paypal.me/tiagitoo2000" target="_blank">PayPal</a>
+    <div style="margin:10px 0; padding:10px; background:#6a5acd; color:#000; border-radius:6px; cursor:pointer; font-weight:bold;" onclick="copiarPrex()">
+      Prex (Click para copiar)
+    </div>
+    <p style="font-size:14px; color:#c0c0ff; margin-top:8px; text-align:left;">
+      <b>Nombre:</b> Tiago Chaparro<br>
+      <b>Cuenta Prex:</b> 21559695<br>
+      <b>Depósito:</b> USD/$
+    </p>
+    <p style="font-size:13px; color:#fff; margin-top:15px; background:#1a1a1a; padding:10px; border-radius:6px; line-height:1.4;">
+      📝 Luego de realizar el pago, por favor <b>abrí un ticket en nuestro Discord</b> y envía una <b>foto del comprobante</b> para reclamar tu compra.
+    </p>
+    <button onclick="cerrarPopup()">Cancelar</button>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+<script>
+function showSection(name){
+  document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
+  var target = document.getElementById(name);
+  if(target) target.classList.add('active');
+  var header = document.querySelector('header');
+  var headerOffset = header ? header.offsetHeight : 0;
+  var elementPosition = target.getBoundingClientRect().top + window.pageYOffset;
+  var offsetPosition = elementPosition - headerOffset - 10;
+  window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+}
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  const categories = {"only":"only","susano":"susano","stoped":"stoped","hx":"hx","red":"red","jorel":"jorel","flyside":"flyside","corwail":"corwail"};
+  const searchInput = document.getElementById('searchBar');
+  let suggestions = document.getElementById('suggestions');
+
+  function showProductsSection(){
+    const inicio = document.getElementById('inicio');
+    const productos = document.getElementById('productos');
+    if(inicio) inicio.classList.remove('active');
+    if(productos) productos.classList.add('active');
+  }
+
+  function scrollAndHighlight(element){
+    if(!element) return;
+    showProductsSection();
+    setTimeout(function(){
+      const header = document.querySelector('header');
+      const headerOffset = header ? header.offsetHeight : 0;
+      const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+      const offsetPosition = elementPosition - headerOffset - 10;
+      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+      const prev = element.style.backgroundColor;
+      element.style.transition = 'background-color 0.3s ease';
+      element.style.backgroundColor = '#6a5acd55';
+      setTimeout(function(){ element.style.backgroundColor = prev || 'transparent'; }, 2000);
+    }, 100);
+  }
+
+  if(!searchInput){
+    return;
+  }
+  if(!suggestions){
+    suggestions = document.createElement('div');
+    suggestions.id = 'suggestions';
+    searchInput.parentNode.appendChild(suggestions);
+  }
+
+  searchInput.addEventListener('keydown', function(e){
+    if(e.key === 'Enter'){
+      e.preventDefault();
+      const filter = (this.value || '').trim().toLowerCase();
+      if(!filter) return;
+      // First try category
+      let matched = Object.keys(categories).find(cat => cat === filter) || Object.keys(categories).find(cat => cat.indexOf(filter) !== -1);
+      if(matched){
+        const el = document.getElementById(categories[matched]);
+        if(el){ scrollAndHighlight(el); return; }
+      }
+      // Else search for product card
+      const cards = Array.from(document.querySelectorAll('#productos .card'));
+      let firstMatch = cards.find(card => {
+        const t = card.querySelector('.title') ? card.querySelector('.title').textContent.toLowerCase() : '';
+        const d = card.querySelector('.desc') ? card.querySelector('.desc').textContent.toLowerCase() : '';
+        return t.indexOf(filter) !== -1 || d.indexOf(filter) !== -1;
+      });
+      if(firstMatch){
+        scrollAndHighlight(firstMatch);
+      } else {
+        showProductsSection();
+      }
+    }
+  });
+});
+</script>
+
+
+<div id="paymentModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="cerrarPago()">&times;</span>
+    <h2>Pago para <span id="productoNombre"></span></h2>
+    <a href="https://paypal.me/tiagitoo2000" target="_blank" class="paypal">Pagar con PayPal</a>
+    <div class="prex" onclick="copiarPrex()">Prex (Click para copiar)</div>
+    <p style="font-size:14px; text-align:left; margin-top:8px;">
+      <b>Nombre:</b> Tiago Chaparro<br>
+      <b>Cuenta Prex:</b> 21559695<br>
+      <b>Depósito:</b> USD/$ (No olvides las comisiones)
+    </p>
+    <p style="font-size:13px; color:#ccc; margin-top:12px; background:#1a1a1a; padding:10px; border-radius:6px; line-height:1.4;">
+      📝 Luego de realizar el pago, por favor abrí un ticket en nuestro Discord y envía una foto del comprobante para reclamar tu compra.
+    </p>
+  </div>
+</div>
+
+<script>
+function abrirPago(producto){
+  document.getElementById('productoNombre').innerText = producto;
+  document.getElementById('paymentModal').style.display = 'block';
+}
+function cerrarPago(){
+  document.getElementById('paymentModal').style.display = 'none';
+}
+function copiarPrex(){
+  const datos = "Nombre: Tiago Chaparro | Cuenta Prex: 21559695 | Deposito: USD/$ (No olvides las comisiones)";
+  navigator.clipboard.writeText(datos).then(()=>{
+    alert("Datos de Prex copiados!");
+  });
+}
+</script>
+
+
+<script>
+// ===== Contador dinámico (cambiar COUNTER_URL por tu URL de Render) =====
+const COUNTER_URL = "https://contador-paypallllllll-5.onrender.com/contador"; // <<< reemplaza esto con tu URL real
+
+async function actualizarContador() {
+  try {
+    const res = await fetch(COUNTER_URL, {cache: "no-store"});
+    if (!res.ok) throw new Error("fetch error " + res.status);
+    const data = await res.json();
+    if (data.ventas !== undefined) document.getElementById("ventas").textContent = data.ventas;
+    if (data.compradores !== undefined) document.getElementById("compradores").textContent = data.compradores;
+  } catch (err) {
+    console.error("Error actualizando contador:", err);
+  }
+}
+
+// refrescar cada 5s
+setInterval(actualizarContador, 5000);
+document.addEventListener("DOMContentLoaded", actualizarContador);
+</script>
+
+</body>
+</html>
